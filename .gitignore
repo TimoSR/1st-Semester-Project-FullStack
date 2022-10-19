@@ -798,8 +798,6 @@ fabric.properties
 .history
 .ionide
 
-*Db.*
-/*Db.*
 bin/
 obj/
 .vs/
