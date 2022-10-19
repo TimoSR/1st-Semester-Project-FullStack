@@ -37,7 +37,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MyProperty");
+                    b.ToTable("Activities");
                 });
 #pragma warning restore 612, 618
         }
