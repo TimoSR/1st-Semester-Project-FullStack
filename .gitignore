@@ -800,6 +800,13 @@ fabric.properties
 
 *Db.*
 /*Db.*
+bin/
+obj/
+.vs/
+node_modules/
+*.db
+*.db-shm
+*.db-wal
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,rider
 
