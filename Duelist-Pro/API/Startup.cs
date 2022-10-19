@@ -37,7 +37,9 @@ namespace API
             });
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlite();
+                // Targets "ConnectionStrings" in appsettings.Development.json
+                // It is important that ConnectionStrings is in plural
+                opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
         }
 
