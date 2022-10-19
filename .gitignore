@@ -798,6 +798,8 @@ fabric.properties
 .history
 .ionide
 
+*Db.*
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,rider
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,rider,macos,windows,linux,react,node
