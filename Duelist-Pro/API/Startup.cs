@@ -26,6 +26,8 @@ namespace API
 
         }
 
+        private String MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -41,6 +43,7 @@ namespace API
                 // It is important that ConnectionStrings is in plural
                 opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +59,10 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // Without a Cors Policy the browser wont accept the data send from the API
+
+            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthorization();
 
