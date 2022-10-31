@@ -30,7 +30,7 @@ namespace Application.Activities
             /*
             
                 The Unit returned retunrs nothing. 
-                It is there to signal the API that the command was successfull.
+                It is there to signal the API controller that the command was finnished.
 
             */
 
@@ -41,7 +41,7 @@ namespace Application.Activities
                 await _context.SaveChangesAsync();
 
                 /*
-                    Is needed to make the task work with the command
+                    Signals the API controller that Task was finnished
                 */
 
                 return Unit.Value;
