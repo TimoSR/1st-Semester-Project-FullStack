@@ -9,8 +9,13 @@ namespace Application.Core
 {
     public class MappingProfiles : Profile
     {
-        protected MappingProfiles()
+        public MappingProfiles()
         {
+
+            /*
+                We map from our Activity to Activity
+            */
+
             CreateMap<Activity, Activity>();
         }
     }
