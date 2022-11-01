@@ -47,7 +47,7 @@ namespace Application.Activities
 
                 _mapper.Map(request.Activity, activity);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
 
