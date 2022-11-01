@@ -38,7 +38,7 @@ namespace Application.Activities
             {
                 _context.Activities.Add(request.Activity);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 /*
                     Signals the API controller that Task was finnished
