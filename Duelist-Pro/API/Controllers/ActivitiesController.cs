@@ -15,10 +15,10 @@ namespace API.Controllers
         /* Gets a list of activities */
 
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> GetActivities()
+        public async Task<ActionResult<List<Activity>>> GetActivities(CancellationToken cancellationToken)
         {
 
-            return await Mediator.Send(new List.Query());
+            return await Mediator.Send(new List.Query(), cancellationToken);
 
         }
 
@@ -47,6 +47,12 @@ namespace API.Controllers
             activity.Id = id;
 
             return Ok(await Mediator.Send(new Edit.Command { Activity = activity }));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteActivity(Guid id)
+        {
+            return Ok(await Mediator.Send(new Delete.Command { Id = id }));
         }
 
     }

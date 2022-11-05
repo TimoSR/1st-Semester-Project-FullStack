@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Extentions;
 using Application.Activities;
 using Application.Core;
 using AutoMapper;
@@ -38,20 +39,7 @@ namespace API
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
-            });
-            services.AddDbContext<DataContext>(opt =>
-            {
-                // Targets "ConnectionStrings" in appsettings.Development.json
-                // It is important that ConnectionStrings is in plural
-                opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
-            });
-
-            services.AddMediatR(typeof(List.Handler).Assembly);
-            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-    
+            services.AddApplicationServices(_config);
 
         }
 
