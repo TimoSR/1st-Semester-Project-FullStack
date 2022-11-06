@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import axios from 'axios';
 import { Container, List } from 'semantic-ui-react';
 import { IActivity } from '../models/activity';
 import Navbar from './Navbar';
+import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
 
 function App() {
 
@@ -21,20 +22,17 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <Fragment>
       {/** Using semantic ui for handling website layout */}
       <Navbar />
+      {/** We need to give a margin to the top as navbar use a fixed top */}
       <Container style = {{marginTop: '7em'}}>
-        {/** Listing the array received from the backend */}
-        <List>
-          {activities.map((activity) => (
-              <List.Item key={activity.id}>
-                {activity.title}
-              </List.Item>
-            ))}
-          </List>
+        {/** 
+         * Listing the array received from the backend, by using the ActivityDashBoard
+        */}
+        <ActivityDashBoard  activities={activities}/>
       </Container>
-    </div>
+    </Fragment>
   );
 }
 
