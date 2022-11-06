@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'semantic-ui-css/semantic.min.css'
-import './App.css';
 import axios from 'axios';
 import { Header, List } from 'semantic-ui-react';
 
-function App() {
+function AppExample() {
 
   /** Creating a hook for the activities */
 
@@ -14,7 +13,7 @@ function App() {
 
   useEffect(() => {
     axios.get('https://localhost:7032/api/Activities').then(response => {
-      console.log(response);
+      //console.log(response);
       setActivies(response.data)
     })
   }, [])
@@ -34,5 +33,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
