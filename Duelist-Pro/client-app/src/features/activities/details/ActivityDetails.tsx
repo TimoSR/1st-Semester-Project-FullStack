@@ -9,7 +9,7 @@ interface Props {
 export default function ActivityDetails ({activity}: Props) {
     return(
         /** We will use cards to display the activity details */
-        <Card>
+        <Card fluid>
             {/** Creating a dynamic string to receive the pictures */}
             <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
             <Card.Content>
@@ -20,7 +20,7 @@ export default function ActivityDetails ({activity}: Props) {
             <Card.Content extra>
                 <Button.Group widths ='2'>
                     <Button basic color='blue' content ='Edit'></Button>
-                    <Button basic color='blue' content ='Edit'></Button>
+                    <Button basic color='red' content ='Cancel'></Button>
                 </Button.Group>
             </Card.Content>
         </Card>
