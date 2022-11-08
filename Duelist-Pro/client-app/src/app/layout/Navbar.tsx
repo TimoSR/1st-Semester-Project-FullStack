@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button, Container, Menu } from 'semantic-ui-react';
-import { IActivity } from '../models/activity';
 
 interface Props {
-    openForm: (id: string) => void;
+    openForm: () => void;
 }
 
 export default function Navbar({openForm}: Props) {
@@ -17,7 +16,7 @@ export default function Navbar({openForm}: Props) {
                 </Menu.Item>
                 <Menu.Item name="Activities" />
                 <Menu.Item>
-                    <Button OnClick={() => openForm} positive content="Create Activity" />
+                    <Button onClick={openForm} positive content="Create Activity" />
                 </Menu.Item>
             </Container>
         </Menu>
