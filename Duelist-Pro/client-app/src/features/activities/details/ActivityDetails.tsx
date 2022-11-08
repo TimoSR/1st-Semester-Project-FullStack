@@ -5,9 +5,10 @@ import { IActivity } from '../../../app/models/activity';
 interface Props {
     activity: IActivity;
     cancelSelectActivity: () => void;
+    openForm: (id: string) => void;
 }
 
-export default function ActivityDetails ({activity, cancelSelectActivity}: Props) {
+export default function ActivityDetails ({activity, cancelSelectActivity, openForm}: Props) {
     return(
         /** We will use cards to display the activity details */
         <Card fluid>
@@ -20,7 +21,13 @@ export default function ActivityDetails ({activity, cancelSelectActivity}: Props
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths ='2'>
-                    <Button basic color='blue' content ='Edit'></Button>
+                    {/** 
+                     * It is important that we use a lamda function for onClick event. 
+                     * As a regular function would trigger the moment we render it, 
+                     * as it parses an arugment to selectActivty
+                     * Where the lamda will wait on the onClick.  
+                     * */}
+                    <Button onClick={() => openForm(activity.id)} basic color='blue' content ='Edit'></Button>
                      {/** 
                       * I don't get why lamda don't work with cancelSelectActivity
                       * Maybe because there is never given a parameter in that case? 

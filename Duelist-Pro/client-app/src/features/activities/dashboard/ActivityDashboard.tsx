@@ -8,9 +8,12 @@ import ActivityList from './ActivityList';
 interface Props {
     activities: IActivity[];
     selectedActivity: IActivity | undefined;
-    /** as it is a function we need to give the return type*/
+    /** as it is a function we need to give the return type */
     selectActivity: (id: String) => void;
     cancelSelectActivity: () => void;
+    editMode: boolean;
+    openForm: (id: string) => void;
+    closeForm: () => void;
 }
 
 /**  
@@ -22,10 +25,12 @@ export default function ActivityDashBoard(
     {   activities, 
         selectedActivity, 
         selectActivity, 
-        cancelSelectActivity    }: Props) {
+        cancelSelectActivity,
+        editMode,
+        openForm,
+        closeForm   }: Props) {
 
     return (
-
         <Grid>
             <Grid.Column width='10'>
                 <ActivityList 
@@ -34,14 +39,22 @@ export default function ActivityDashBoard(
             />
             </Grid.Column>
             <Grid.Column width='6'>
-                {selectedActivity &&
-                <ActivityDetails 
+                {/**
+                 * Displayed when selecting an activity and not in editMode
+                 */}
+                {(selectedActivity && !editMode) ?
+                    <ActivityDetails 
                     activity={selectedActivity} 
-                    cancelSelectActivity={cancelSelectActivity} 
-                />}
-                <ActivityForm />
+                    cancelSelectActivity={cancelSelectActivity}
+                    openForm={openForm} /> : null}
+                {/**
+                 * Displayed when selecting edit mode
+                 */}    
+                {(editMode) ?
+                    <ActivityForm 
+                    closeForm={closeForm} 
+                    activity={selectedActivity} /> : null} 
             </Grid.Column>
         </Grid>
-
     )
 } 
