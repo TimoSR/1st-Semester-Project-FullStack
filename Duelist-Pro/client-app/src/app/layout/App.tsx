@@ -12,14 +12,26 @@ function App() {
 
   const [activities, setActivies] = useState<IActivity[]>([]);
 
+  /** selectecActivity can be an Activity or undefined be a */
+  const [selectedActivity, setSelectedActivity] = useState<IActivity | undefined>(undefined);
+
   /** HTTP request for the Activites in the backend */
 
   useEffect(() => {
     axios.get<IActivity[]>('https://localhost:7032/api/Activities').then(response => {
       //console.log(response);
-      setActivies(response.data)
+      setActivies(response.data);
     })
   }, [])
+
+  function handleSelectActivity(id: String) {
+    /** Looking for the activity set as the id param */
+    setSelectedActivity(activities.find(activity => activity.id === id));
+  }
+
+  function handleCancelSelectActivity() {
+    setSelectedActivity(undefined);
+  }
 
   return (
     <Fragment>
@@ -27,10 +39,13 @@ function App() {
       <Navbar />
       {/** We need to give a margin to the top as navbar use a fixed top */}
       <Container style = {{marginTop: '7em'}}>
-        {/** 
-         * Listing the array received from the backend, by using the ActivityDashBoard
-        */}
-        <ActivityDashBoard  activities={activities}/>
+        {/** Listing the array received from the backend, by using the ActivityDashBoard */}
+        <ActivityDashBoard 
+          activities={activities} 
+          selectedActivity={selectedActivity}
+          selectActivity={handleSelectActivity}
+          cancelSelectActivity={handleCancelSelectActivity}
+        />
       </Container>
     </Fragment>
   );

@@ -8,7 +8,7 @@ export default function Navbar() {
             <Container>
                 <Menu.Item header>
                     <img src="/asset/logo.png" alt="logo" style={{marginRight: '100 px'}} />
-                    Reactivities
+                    Duelist Pro
                 </Menu.Item>
                 <Menu.Item name="Activities" />
                 <Menu.Item>

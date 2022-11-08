@@ -4,9 +4,10 @@ import { IActivity } from '../../../app/models/activity';
 
 interface Props {
     activity: IActivity;
+    cancelSelectActivity: () => void;
 }
 
-export default function ActivityDetails ({activity}: Props) {
+export default function ActivityDetails ({activity, cancelSelectActivity}: Props) {
     return(
         /** We will use cards to display the activity details */
         <Card fluid>
@@ -20,7 +21,11 @@ export default function ActivityDetails ({activity}: Props) {
             <Card.Content extra>
                 <Button.Group widths ='2'>
                     <Button basic color='blue' content ='Edit'></Button>
-                    <Button basic color='red' content ='Cancel'></Button>
+                     {/** 
+                      * I don't get why lamda don't work with cancelSelectActivity
+                      * Maybe because there is never given a parameter in that case? 
+                      * */}
+                    <Button onClick={cancelSelectActivity} basic color='red' content ='Cancel'></Button>
                 </Button.Group>
             </Card.Content>
         </Card>

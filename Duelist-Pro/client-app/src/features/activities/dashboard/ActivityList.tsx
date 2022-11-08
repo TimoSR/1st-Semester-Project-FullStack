@@ -4,9 +4,10 @@ import { IActivity } from '../../../app/models/activity';
 
 interface Props {
     activities: IActivity[];
+    selectActivity: (id: String) => void;
 }
 
-export default function ActivityList({activities}: Props) {
+export default function ActivityList({activities, selectActivity}: Props) {
     return(
         <Segment>
             {/** We are using items to view the activities */}
@@ -20,7 +21,13 @@ export default function ActivityList({activities}: Props) {
                                 <div>{activity.description}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button floated='right' content='View' color='blue'></Button>
+                                {/** 
+                                 * It is important that we use a lamda function for onClick event. 
+                                 * As a regular function would trigger the moment we render it, 
+                                 * as it parses an arugment to selectActivty
+                                 * Where the lamda will wait on the onClick.  
+                                 * */}
+                                <Button onClick={() => selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>
                                 <Label basic content={activity.category}/>
                             </Item.Extra>
                         </Item.Content> 
