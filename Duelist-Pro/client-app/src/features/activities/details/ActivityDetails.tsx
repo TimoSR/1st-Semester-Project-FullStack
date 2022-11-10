@@ -32,7 +32,7 @@ export default function ActivityDetails ({activity, cancelSelectActivity, openFo
                       * I don't get why lamda don't work with cancelSelectActivity
                       * Maybe because there is never given a parameter in that case? 
                       * */}
-                    <Button onClick={cancelSelectActivity} basic color='red' content ='Cancel'></Button>
+                    <Button onClick={cancelSelectActivity} basic color='grey' content ='Cancel'></Button>
                 </Button.Group>
             </Card.Content>
         </Card>

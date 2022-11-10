@@ -29,7 +29,7 @@ export default function ActivityList({activities, deleteActivity, selectActivity
                                  * Where the lamda will wait on the onClick.  
                                  * */}
                                 <Button onClick={() => selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>
-                                <Button onClick={() => deleteActivity(activity.id)} floated='right' content='delete'/>
+                                <Button onClick={() => deleteActivity(activity.id)} floated='right' content='delete' color='red'></Button>
                                 <Label basic content={activity.category}/>
                             </Item.Extra>
                         </Item.Content> 
