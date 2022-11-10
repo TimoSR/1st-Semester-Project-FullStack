@@ -5,6 +5,8 @@ import { Container } from 'semantic-ui-react';
 import { IActivity } from '../models/activity';
 import Navbar from './Navbar';
 import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
+// read import comments if they are highligted red, when working with ts
+import {v4 as uuid} from 'uuid';
 
 function App() {
 
@@ -52,7 +54,7 @@ function App() {
      
      activity.id 
       ? setActivities([...activities.filter(x => x.id !== activity.id)]) 
-      : setActivities([...activities, activity]);
+      : setActivities([...activities, {...activity, id: uuid()}}]);
     
     */
 
@@ -63,7 +65,7 @@ function App() {
      */
 
 
-    const activitiesArray: IActivity[] = [...activities];
+    let activitiesArray: IActivity[] = [...activities];
 
       if (activity.id !== null) {
 
@@ -80,6 +82,10 @@ function App() {
       setActivities(sortedActivityArray);
 
     } else {
+
+      // Adding new activity to the array with a uuid ID
+
+      activitiesArray = [...activities, {...activity, id: uuid()}] ;
 
       // Adding the new array in the front of the array
 
