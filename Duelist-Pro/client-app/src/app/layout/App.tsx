@@ -9,7 +9,7 @@ import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashb
 function App() {
 
   /** Creating a hook for the activities */
-  const [activities, setActivies] = useState<IActivity[]>([]);
+  const [activities, setActivities] = useState<IActivity[]>([]);
   /** selectecActivity can be an Activity or undefined */
   const [selectedActivity, setSelectedActivity] = useState<IActivity | undefined>(undefined);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -19,7 +19,7 @@ function App() {
     /** HTTP request for the Activites in the backend */
     axios.get<IActivity[]>('https://localhost:7032/api/Activities').then(response => {
       //console.log(response);
-      setActivies(response.data);
+      setActivities(response.data);
     })
   }, [])
 
@@ -46,6 +46,55 @@ function App() {
     setEditMode(false);
   }
 
+  function handleCreateOrEditActivity(activity: IActivity){
+    
+    /** Alternative code with the tenary operator can replace all the logic below 
+     
+     activity.id 
+      ? setActivities([...activities.filter(x => x.id !== activity.id)]) 
+      : setActivities([...activities, activity]);
+    
+    */
+
+    /** 
+     * We check for the pressence of an activity id.
+     * If we did receive an ID we know we are updating an Activity.
+     * If we did not receive an id we know we are creating an Activity.
+     */
+
+
+    const activitiesArray: IActivity[] = [...activities];
+
+      if (activity.id !== null) {
+
+      // Filter creates an array without the activity that will be updated
+
+      const sortedActivityArray: IActivity[] = activitiesArray.filter(x => x.id !== activity.id);
+
+      // Adding the updated activity in the front of the array
+
+      sortedActivityArray.unshift(activity);
+
+      // Updating the set array
+
+      setActivities(sortedActivityArray);
+
+    } else {
+
+      // Adding the new array in the front of the array
+
+      activitiesArray.unshift(activity);
+
+      setActivities(activitiesArray);
+
+    }
+
+    setEditMode(false);
+      
+    setSelectedActivity(activity);
+    
+  }
+
   return (
     <Fragment>
       {/** Using semantic ui for handling website layout */}
@@ -61,6 +110,7 @@ function App() {
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
+          createOrEdit={handleCreateOrEditActivity}
         />
       </Container>
     </Fragment>

@@ -14,6 +14,7 @@ interface Props {
     editMode: boolean;
     openForm: (id: string) => void;
     closeForm: () => void;
+    createOrEdit: (activity: IActivity) => void;
 }
 
 /**  
@@ -28,7 +29,8 @@ export default function ActivityDashBoard(
         cancelSelectActivity,
         editMode,
         openForm,
-        closeForm   }: Props) {
+        closeForm,
+        createOrEdit   }: Props) {
 
     return (
         <Grid>
@@ -53,7 +55,8 @@ export default function ActivityDashBoard(
                 {(editMode) ?
                     <ActivityForm 
                     closeForm={closeForm} 
-                    activity={selectedActivity} /> : null} 
+                    activity={selectedActivity}
+                    createOrEdit={createOrEdit} /> : null} 
             </Grid.Column>
         </Grid>
     )

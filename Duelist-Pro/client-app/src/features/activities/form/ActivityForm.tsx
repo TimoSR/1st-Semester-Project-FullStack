@@ -5,9 +5,13 @@ import { IActivity } from '../../../app/models/activity';
 interface Props {
     activity: IActivity | undefined;
     closeForm: () => void;
+    createOrEdit: (activity: IActivity) => void;
 }
 
-export default function ActivityForm({activity: selectedActivity, closeForm}: Props) {
+export default function ActivityForm({
+    activity: selectedActivity, 
+    closeForm, 
+    createOrEdit    }: Props) {
 
     /** If activity is null, we initilize an empty activity */
     const initialState = selectedActivity ?? {
@@ -21,6 +25,7 @@ export default function ActivityForm({activity: selectedActivity, closeForm}: Pr
     const [activity, setActivity] = useState(initialState);
 
     function handleSumit() {
+        createOrEdit(activity);
         console.log(activity);
     }
 
