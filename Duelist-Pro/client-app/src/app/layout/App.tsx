@@ -101,6 +101,11 @@ function App() {
     
   }
 
+  function handleDeleteActivity(id: string){
+    // creating a new list without the activity = deleting the activity
+    setActivities([...activities.filter(x => x.id !== id)]);
+  }
+
   return (
     <Fragment>
       {/** Using semantic ui for handling website layout */}
@@ -117,6 +122,7 @@ function App() {
           openForm={handleFormOpen}
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditActivity}
+          deleteActivity={handleDeleteActivity}
         />
       </Container>
     </Fragment>
