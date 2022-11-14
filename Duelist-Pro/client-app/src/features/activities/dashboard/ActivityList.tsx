@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { Button, Item, Label, List, Segment } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 
@@ -6,9 +6,18 @@ interface Props {
     activities: IActivity[];
     selectActivity: (id: String) => void;
     deleteActivity: (id: string) => void;
+    submitting: boolean;
 }
 
-export default function ActivityList({activities, deleteActivity, selectActivity}: Props) {
+export default function ActivityList({activities, deleteActivity, selectActivity, submitting}: Props) {
+
+    const [target, setTarget] = useState('');
+
+    function handleActivityDelete(clickEvent: SyntheticEvent<HTMLButtonElement>, id: string) {
+        setTarget(clickEvent.currentTarget.name);
+        deleteActivity(id);
+    }
+
     return(
         <Segment>
             {/** We are using items to view the activities */}
@@ -29,7 +38,15 @@ export default function ActivityList({activities, deleteActivity, selectActivity
                                  * Where the lamda will wait on the onClick.  
                                  * */}
                                 <Button onClick={() => selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>
-                                <Button onClick={() => deleteActivity(activity.id)} floated='right' content='delete' color='red'></Button>
+                                <Button
+                                    name={activity.id} 
+                                    /** Submitting and insure the target with loading is correct the activity */
+                                    loading={submitting && target === activity.id} 
+                                    onClick={(clickEvent) => handleActivityDelete(clickEvent, activity.id)} 
+                                    floated='right' 
+                                    content='delete' 
+                                    color='red' 
+                                />
                                 <Label basic content={activity.category}/>
                             </Item.Extra>
                         </Item.Content> 

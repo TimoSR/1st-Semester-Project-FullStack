@@ -136,10 +136,12 @@ function App() {
   function handleDeleteActivity(id: string){
     // creating a new list without the activity = deleting the activity
 
+    setSubmitting(true);
+
     agent.Activities.delete(id).then(() => {
 
       setActivities([...activities.filter(x => x.id !== id)]);
-
+      setSubmitting(false);
     })
     
   }
