@@ -17,6 +17,7 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState<IActivity | undefined>(undefined);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
 
   useEffect(() => {
@@ -33,7 +34,8 @@ function App() {
         activities.push(activity);
       })
       //console.log(response);
-      setActivities(activities);
+      /** Reversing the list so the newly added is added to the top */
+      setActivities(activities.reverse());
       setLoading(false);
     })
   }, [])
@@ -77,46 +79,69 @@ function App() {
      * If we did not receive an id we know we are creating an Activity.
      */
 
+    setSubmitting(true);
 
     let activitiesArray: IActivity[] = [...activities];
 
-      if (activity.id !== null) {
+    if (activity.id) {
 
-      // Filter creates an array without the activity that will be updated
+      agent.Activities.update(activity).then(() => {
 
-      const sortedActivityArray: IActivity[] = activitiesArray.filter(x => x.id !== activity.id);
+        // Filter creates an array without the activity that will be updated
 
-      // Adding the updated activity in the front of the array
+        let sortedActivityArray: IActivity[] = activitiesArray.filter(x => x.id !== activity.id);
 
-      sortedActivityArray.unshift(activity);
+        // Adding the updated activity in the front of the array
 
-      // Updating the set array
+        sortedActivityArray.unshift(activity);
 
-      setActivities(sortedActivityArray);
+        // Updating the set array
 
+        setActivities(sortedActivityArray);
+
+        setEditMode(false);
+      
+        setSelectedActivity(activity);
+
+        setSubmitting(false);
+
+      })
+ 
     } else {
 
       // Adding new activity to the array with a uuid ID
 
-      activitiesArray = [...activities, {...activity, id: uuid()}] ;
+      activity.id = uuid();
 
-      // Adding the new array in the front of the array
+      agent.Activities.create(activity).then(() => {
 
-      activitiesArray.unshift(activity);
+        activitiesArray = [...activities]
 
-      setActivities(activitiesArray);
+        activitiesArray.unshift(activity);
+
+        setActivities(activitiesArray);
+
+        setEditMode(false);
+      
+        setSelectedActivity(activity);
+
+        setSubmitting(false);
+
+      })
 
     }
-
-    setEditMode(false);
-      
-    setSelectedActivity(activity);
     
   }
 
   function handleDeleteActivity(id: string){
     // creating a new list without the activity = deleting the activity
-    setActivities([...activities.filter(x => x.id !== id)]);
+
+    agent.Activities.delete(id).then(() => {
+
+      setActivities([...activities.filter(x => x.id !== id)]);
+
+    })
+    
   }
 
   if (loading) return <LoadingComponent content="Fetching Data..." />
@@ -138,6 +163,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
+          submitting={submitting}
         />
       </Container>
     </Fragment>

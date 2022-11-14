@@ -6,12 +6,14 @@ interface Props {
     activity: IActivity | undefined;
     closeForm: () => void;
     createOrEdit: (activity: IActivity) => void;
+    submitting: boolean;
 }
 
 export default function ActivityForm({
     activity: selectedActivity, 
     closeForm, 
-    createOrEdit    }: Props) {
+    createOrEdit,
+    submitting    }: Props) {
 
     /** If activity is null, we initilize an empty activity */
     const initialState = selectedActivity ?? {
@@ -47,7 +49,7 @@ export default function ActivityForm({
                 <Form.TextArea placeholder="Description" value={activity.description} name="description" onChange={handleInputChange} />
                 <Form.Input placeholder="Category" value={activity.category} name="category" onChange={handleInputChange} />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' color='grey' />
-                <Button floated='right' color='blue' content='Submit'></Button>            
+                <Button loading={submitting} floated='right' color='blue' content='Submit'></Button>            
             </Form>
         </Segment>
     )
