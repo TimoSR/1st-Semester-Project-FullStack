@@ -43,7 +43,7 @@ export default function ActivityForm({
         <Segment clearing>
             <Form onSubmit={handleSumit} autoComplete='off'>
                 <Form.Input placeholder="Title" value={activity.title} name="title" onChange={handleInputChange} />
-                <Form.Input placeholder="Date" value={activity.date} name="date" onChange={handleInputChange} />
+                <Form.Input type="date" placeholder="Date" value={activity.date} name="date" onChange={handleInputChange} />
                 <Form.TextArea placeholder="Description" value={activity.description} name="description" onChange={handleInputChange} />
                 <Form.Input placeholder="Category" value={activity.category} name="category" onChange={handleInputChange} />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' color='grey' />

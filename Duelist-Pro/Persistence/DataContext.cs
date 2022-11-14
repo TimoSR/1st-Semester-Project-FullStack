@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
-#nullable disable
-
 namespace Persistence
 {
     public class DataContext : DbContext

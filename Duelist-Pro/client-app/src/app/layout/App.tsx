@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import 'semantic-ui-css/semantic.min.css'
-import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { IActivity } from '../models/activity';
 import Navbar from './Navbar';
 import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
 // read import comments if they are highligted red, when working with ts
 import {v4 as uuid} from 'uuid';
+import agent from '../agent';
+import LoadingComponent from './LoadingComponents';
 
 function App() {
 
@@ -15,13 +16,25 @@ function App() {
   /** selectecActivity can be an Activity or undefined */
   const [selectedActivity, setSelectedActivity] = useState<IActivity | undefined>(undefined);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     /** HTTP request for the Activites in the backend */
-    axios.get<IActivity[]>('https://localhost:7032/api/Activities').then(response => {
+    agent.Activities.list().then(response => {
+      let activities: IActivity[] = [];
+      response.forEach(activity => {
+        /**
+         * Based on the format of the data, we change it to fit the date form. 
+         * (We can inspect it in the Network repsonse from the server)
+         * We split the date based on the T, and take the first part now two elements. 
+         */
+        activity.date = activity.date.split('T')[0];
+        activities.push(activity);
+      })
       //console.log(response);
-      setActivities(response.data);
+      setActivities(activities);
+      setLoading(false);
     })
   }, [])
 
@@ -105,6 +118,8 @@ function App() {
     // creating a new list without the activity = deleting the activity
     setActivities([...activities.filter(x => x.id !== id)]);
   }
+
+  if (loading) return <LoadingComponent content="Fetching Data..." />
 
   return (
     <Fragment>
