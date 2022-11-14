@@ -44,9 +44,9 @@ const requests = {
 const Activities = {
     list: () => requests.get<IActivity[]>('/activities'),
     details: (id: string) => requests.get<IActivity>(`/activities/${id}`),
-    create: (activity: IActivity) => axios.post(`/activities`, activity),
-    update: (activity: IActivity) => axios.put(`/activities/${activity.id}`, activity),
-    delete: (id: string) => axios.delete(`/activities/${id}`)
+    create: (activity: IActivity) => requests.post<void>(`/activities`, activity),
+    update: (activity: IActivity) => requests.put<void>(`/activities/${activity.id}`, activity),
+    delete: (id: string) => requests.delete<void>(`/activities/${id}`)
 };
 
 const agent = {
