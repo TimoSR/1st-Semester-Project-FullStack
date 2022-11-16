@@ -3,8 +3,6 @@ import React from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
-
-
 export default observer(function ActivityDetails () {
 
     const {activityStore} = useStore();

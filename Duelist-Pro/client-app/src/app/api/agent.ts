@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { Activity } from '../models/activity';
+import { IActivity } from '../models/activity';
 
 /** Setting a delay to simulate page loading */
 const sleep = (delay: number) => {
@@ -42,10 +42,10 @@ const requests = {
 };
 
 const Activities = {
-    list: () => requests.get<Activity[]>('/activities'),
-    details: (id: string) => requests.get<Activity>(`/activities/${id}`),
-    create: (activity: Activity) => requests.create<void>(`/activities`, activity),
-    update: (activity: Activity) => requests.update<void>(`/activities/${activity.id}`, activity),
+    list: () => requests.get<IActivity[]>('/activities'),
+    details: (id: string) => requests.get<IActivity>(`/activities/${id}`),
+    create: (activity: IActivity) => requests.create<void>(`/activities`, activity),
+    update: (activity: IActivity) => requests.update<void>(`/activities/${activity.id}`, activity),
     delete: (id: string) => requests.delete<void>(`/activities/${id}`)
 };
 

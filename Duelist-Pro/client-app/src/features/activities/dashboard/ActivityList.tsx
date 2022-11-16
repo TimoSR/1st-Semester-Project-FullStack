@@ -1,15 +1,12 @@
+import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
-import { Activity } from '../../../app/models/activity';
 import { useStore } from '../../../app/stores/store';
 
-interface Props {
-    activities: Activity[];
-    deleteActivity: (id: string) => void;
-    submitting: boolean;
-}
+export default observer(function ActivityList() {
 
-export default function ActivityList({activities, deleteActivity, submitting}: Props) {
+    const {activityStore} = useStore();
+    const {deleteActivity, activities, loading} = activityStore;
 
     const [target, setTarget] = useState('');
 
@@ -17,9 +14,6 @@ export default function ActivityList({activities, deleteActivity, submitting}: P
         setTarget(clickEvent.currentTarget.name);
         deleteActivity(id);
     }
-
-    const {activityStore} = useStore();
-    const {selectActivity} = activityStore;
 
     return(
         <Segment>
@@ -40,11 +34,11 @@ export default function ActivityList({activities, deleteActivity, submitting}: P
                                  * as it parses an arugment to selectActivty
                                  * Where the lamda will wait on the onClick.  
                                  * */}
-                                <Button onClick={() => selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>
+                                <Button onClick={() => activityStore.selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>
                                 <Button
                                     name={activity.id} 
                                     /** Submitting and insure the target with loading is correct the activity */
-                                    loading={submitting && target === activity.id} 
+                                    loading={loading && target === activity.id} 
                                     onClick={(clickEvent) => handleActivityDelete(clickEvent, activity.id)} 
                                     floated='right' 
                                     content='delete' 
@@ -58,4 +52,4 @@ export default function ActivityList({activities, deleteActivity, submitting}: P
             </Item.Group>
         </Segment>
     )
-}
+})

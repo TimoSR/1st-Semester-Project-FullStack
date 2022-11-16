@@ -1,18 +1,17 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
-import { Activity } from '../../../app/models/activity';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 
-interface Props {
-    createOrEdit: (activity: Activity) => void;
-    submitting: boolean;
-}
-
-export default observer(function ActivityForm({ createOrEdit, submitting }: Props) {
+export default observer(function ActivityForm() {
 
     const {activityStore} = useStore();
-    const {selectedActivity, closeForm} = activityStore;
+
+    const { selectedActivity, 
+            closeForm, 
+            createActivity, 
+            updateActivity, 
+            loading } = activityStore;
 
     /** If activity is null, we initilize an empty activity */
     const initialState = selectedActivity ?? {
@@ -26,8 +25,9 @@ export default observer(function ActivityForm({ createOrEdit, submitting }: Prop
     const [activity, setActivity] = useState(initialState);
 
     function handleSumit() {
-        createOrEdit(activity);
-        console.log(activity);
+
+        activity.id ? updateActivity(activity) : createActivity(activity);
+
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -48,7 +48,7 @@ export default observer(function ActivityForm({ createOrEdit, submitting }: Prop
                 <Form.TextArea placeholder="Description" value={activity.description} name="description" onChange={handleInputChange} />
                 <Form.Input placeholder="Category" value={activity.category} name="category" onChange={handleInputChange} />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' color='grey' />
-                <Button loading={submitting} floated='right' color='blue' content='Submit'></Button>            
+                <Button loading={loading} floated='right' color='blue' content='Submit'></Button>            
             </Form>
         </Segment>
     )
