@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { Button, Item, Label, List, Segment } from 'semantic-ui-react';
+import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 
 interface Props {

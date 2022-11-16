@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { IActivity } from './models/activity';
+import { IActivity } from '../models/activity';
 
 /** Setting a delay to simulate page loading */
 const sleep = (delay: number) => {

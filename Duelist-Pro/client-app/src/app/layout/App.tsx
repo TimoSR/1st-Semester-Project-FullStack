@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
 // read import comments if they are highligted red, when working with ts
 import {v4 as uuid} from 'uuid';
-import agent from '../agent';
+import agent from '../api/agent';
 import LoadingComponent from './LoadingComponents';
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
         activities.push(activity);
       })
       //console.log(response);
-      /** Reversing the list so the newly added is added to the top */
+      /** Reversing the list so the newly added is displayed at the top */
       setActivities(activities.reverse());
       setLoading(false);
     })
