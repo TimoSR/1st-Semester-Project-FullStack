@@ -1,14 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import 'semantic-ui-css/semantic.min.css'
-import { Button, Container } from 'semantic-ui-react';
-import { IActivity } from '../models/activity';
+import { Container } from 'semantic-ui-react';
+import { Activity } from '../models/activity';
 import Navbar from './Navbar';
 import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
 // read import comments if they are highligted red, when working with ts
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
 import LoadingComponent from './LoadingComponents';
-import ActivityStore from '../stores/activityStore';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
 
@@ -17,58 +16,21 @@ function App() {
   const {activityStore} = useStore();
 
   /** Creating a hook for the activities */
-  const [activities, setActivities] = useState<IActivity[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
   /** selectecActivity can be an Activity or undefined */
-  const [selectedActivity, setSelectedActivity] = useState<IActivity | undefined>(undefined);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
 
   useEffect(() => {
     /** HTTP request for the Activites in the backend */
-    agent.Activities.list().then(response => {
-      let activities: IActivity[] = [];
-      response.forEach(activity => {
-        /**
-         * Based on the format of the data, we change it to fit the date form. 
-         * (We can inspect it in the Network repsonse from the server)
-         * We split the date based on the T, and take the first part now two elements. 
-         */
-        activity.date = activity.date.split('T')[0];
-        activities.push(activity);
-      })
-      //console.log(response);
-      /** Reversing the list so the newly added is displayed at the top */
-      setActivities(activities.reverse());
-      setLoading(false);
-    })
-  }, [])
+    activityStore.loadActivities();
+  }, 
+  /** The dependencies of the use effect */
+  [activityStore])
 
-  function handleSelectActivity(id: String) {
-    /** Looking for the activity set as the id param */
-    setSelectedActivity(activities.find(activity => activity.id === id));
-  }
-
-  function handleCancelSelectActivity() {
-    setSelectedActivity(undefined);
-  }
-
-  function handleFormOpen(id?: string) {
-    /** 
-     * If the id os provided
-     * handleSelectActivity is triggered.
-     * If not, the handleCancelSelectActivity is triggered. 
-    */
-    id ? handleSelectActivity(id) : handleCancelSelectActivity();
-    setEditMode(true);
-  }
-
-  function handleFormClose() {
-    setEditMode(false);
-  }
-
-  function handleCreateOrEditActivity(activity: IActivity){
+  function handleCreateOrEditActivity(activity: Activity){
     
     /** Alternative code with the tenary operator can replace all the logic below 
      
@@ -86,7 +48,7 @@ function App() {
 
     setSubmitting(true);
 
-    let activitiesArray: IActivity[] = [...activities];
+    let activitiesArray: Activity[] = [...activities];
 
     if (activity.id) {
 
@@ -94,7 +56,7 @@ function App() {
 
         // Filter creates an array without the activity that will be updated
 
-        let sortedActivityArray: IActivity[] = activitiesArray.filter(x => x.id !== activity.id);
+        let sortedActivityArray: Activity[] = activitiesArray.filter(x => x.id !== activity.id);
 
         // Adding the updated activity in the front of the array
 
@@ -151,25 +113,19 @@ function App() {
     
   }
 
-  if (loading) return <LoadingComponent content="Fetching Data..." />
+  if (activityStore.loadingInitial) return <LoadingComponent content="Fetching Data..." />
 
   return (
     <Fragment>
       {/** Using semantic ui for handling website layout */}
-      <Navbar openForm={handleFormOpen} />
+      <Navbar />
       {/** We need to give a margin to the top as navbar use a fixed top */}
       <Container style = {{marginTop: '7em'}}>
-        <h2>{activityStore.title}</h2>
-        <Button content='Add exclamation' positive onClick={activityStore.setTitle} />
+        {/* <h2>{activityStore.testTitle}</h2>
+        <Button content='Add exclamation' positive onClick={activityStore.setTitle} /> */}
         {/** Listing the array received from the backend, by using the ActivityDashBoard */}
         <ActivityDashBoard 
-          activities={activities} 
-          selectedActivity={selectedActivity}
-          selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelectActivity}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
+          activities={activityStore.activities}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
           submitting={submitting}

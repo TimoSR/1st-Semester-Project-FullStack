@@ -1,4 +1,4 @@
-export interface IActivity {
+export interface Activity {
     id: string
     title: string
     /** Date needs to be of type string
