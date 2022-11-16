@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import 'semantic-ui-css/semantic.min.css'
-import { Container } from 'semantic-ui-react';
+import { Button, Container } from 'semantic-ui-react';
 import { IActivity } from '../models/activity';
 import Navbar from './Navbar';
 import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
@@ -10,6 +10,7 @@ import agent from '../api/agent';
 import LoadingComponent from './LoadingComponents';
 import ActivityStore from '../stores/activityStore';
 import { useStore } from '../stores/store';
+import { observer } from 'mobx-react-lite';
 
 function App() {
 
@@ -159,6 +160,7 @@ function App() {
       {/** We need to give a margin to the top as navbar use a fixed top */}
       <Container style = {{marginTop: '7em'}}>
         <h2>{activityStore.title}</h2>
+        <Button content='Add exclamation' positive onClick={activityStore.setTitle} />
         {/** Listing the array received from the backend, by using the ActivityDashBoard */}
         <ActivityDashBoard 
           activities={activities} 
@@ -177,4 +179,5 @@ function App() {
   );
 }
 
-export default App;
+/** It is important to make our components observers if we want them to observe store state  */
+export default observer(App);
