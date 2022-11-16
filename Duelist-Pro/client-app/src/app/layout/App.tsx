@@ -8,8 +8,12 @@ import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashb
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
 import LoadingComponent from './LoadingComponents';
+import ActivityStore from '../stores/activityStore';
+import { useStore } from '../stores/store';
 
 function App() {
+
+  const {activityStore} = useStore();
 
   /** Creating a hook for the activities */
   const [activities, setActivities] = useState<IActivity[]>([]);
@@ -154,6 +158,7 @@ function App() {
       <Navbar openForm={handleFormOpen} />
       {/** We need to give a margin to the top as navbar use a fixed top */}
       <Container style = {{marginTop: '7em'}}>
+        <h2>{activityStore.title}</h2>
         {/** Listing the array received from the backend, by using the ActivityDashBoard */}
         <ActivityDashBoard 
           activities={activities} 

@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, action } from 'mobx';
 
 
 export default class ActivityStore {
@@ -6,8 +6,21 @@ export default class ActivityStore {
 
     constructor() {
         makeObservable(this, {
-            title: observable
+            title: observable,
+            //setTitle: action.bound
+            setTitle: action
         })
+    }
+
+
+    // setTitle() {
+    //     this.title = this.title + '!';
+    // }
+
+    /** By using lamda functions we autobind it to the class */
+
+    setTitle = () => {
+        this.title = this.title + '!';
     }
 
 }
