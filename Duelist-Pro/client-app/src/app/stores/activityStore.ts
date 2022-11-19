@@ -2,11 +2,14 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { IActivity } from '../models/activity';
 import {v4 as uuid} from 'uuid';
+import { threadId } from 'worker_threads';
 
 export default class ActivityStore {
 
     /** Real class data */
-    activities: IActivity[] = [];
+    //activities: IActivity[] = [];
+    /** Better alternative is to use a map */
+    activityRegistry = new Map<string, IActivity>();
     selectedActivity: IActivity | undefined = undefined;
     editMode: boolean = false;
     loading: boolean = false;
@@ -31,9 +34,18 @@ export default class ActivityStore {
 
     }
 
+    get activitiesByDate() {
+        return Array.from(this.activityRegistry.values()).sort((a, b) => 
+        Date.parse(a.date) - Date.parse(b.date));
+    }
+
     /** We utilize async await instead of promises */
     loadActivities = async () => {
-
+        /** 
+         * Can cause flicker on some browsers 
+         * Solution is set it to true in the beginning
+         * if it is a problem
+        */
         this.loadingInitial = true;
 
         try {
@@ -43,32 +55,28 @@ export default class ActivityStore {
             runInAction(() => {
 
                 activities.forEach(activity => {
+
                     /**
                      * Based on the format of the data, we change it to fit the date form. 
                      * (We can inspect it in the Network repsonse from the server)
                      * We split the date based on the T, and take the first part now two elements. 
                      */
                     activity.date = activity.date.split('T')[0];
+
                     /** 
                      * Mutating state directly, would seem odd 
                      * would be seen as a anti pattern in redux.
                      * as we would not directly mutate the state
                      * but this is a core pattern of MobX
                      * */
+                    this.activityRegistry.set(activity.id, activity);
                     
-                    this.activities.push(activity);
-                    
-
                 })
-
 
                 this.loadingInitial = false;
 
-
             })
-
             
-        
         } catch (error) {
 
             console.log(error);
@@ -83,7 +91,8 @@ export default class ActivityStore {
     }
 
     selectActivity = (id: string) => {
-        this.selectedActivity = this.activities.find(activity => activity.id === id);
+        //this.selectedActivity = this.activities.find(activity => activity.id === id);
+        this.selectedActivity = this.activityRegistry.get(id);
     }
 
     cancelSelectedActivity = () => {
@@ -111,7 +120,8 @@ export default class ActivityStore {
             await agent.Activities.create(activity);
 
             runInAction(() => {
-                this.activities.push(activity);
+                //this.activities.push(activity);
+                this.activityRegistry.set(activity.id, activity);
                 this.selectedActivity = activity;
                 this.editMode = false;
                 this.loading = false;
@@ -139,8 +149,12 @@ export default class ActivityStore {
             runInAction(() => {
 
                 // Filter creates an array without the activity that will be replaced
-                this.activities = [...this.activities.filter(a => a.id !== activity.id)];
-                this.activities.push(activity);
+                //this.activities = [...this.activities.filter(a => a.id !== activity.id)];
+                //this.activities.push(activity);
+
+                /** The code above can be replace my map.set */
+                this.activityRegistry.set(activity.id, activity);
+
                 this.selectedActivity = activity;
                 this.editMode = false;
                 this.loading = false;
@@ -164,7 +178,8 @@ export default class ActivityStore {
         try {
             await agent.Activities.delete(id);
             runInAction(() => {
-                this.activities = [...this.activities.filter(a => a.id !== id)];
+                //this.activities = [...this.activities.filter(a => a.id !== id)];
+                this.activityRegistry.delete(id);
                 /** cancelSelectedActivity if selectedActivity is not null */
                 if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
                 this.loading = false;
