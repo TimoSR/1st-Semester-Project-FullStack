@@ -15,11 +15,11 @@ namespace Application.Activities
             public Guid Id { get; set; }
         }
 
-        public class Hander : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
 
-            public Hander(DataContext context)
+            public Handler(DataContext context)
             {
                 _context = context;
             }

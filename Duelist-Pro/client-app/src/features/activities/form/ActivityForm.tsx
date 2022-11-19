@@ -13,7 +13,7 @@ export default observer(function ActivityForm() {
             updateActivity, 
             loading } = activityStore;
 
-    /** If activity is null, we initilize an empty activity */
+    /** If activity is null or undefined, we initilize an empty activity */
     const initialState = selectedActivity ?? {
         id: '',
         title: '',

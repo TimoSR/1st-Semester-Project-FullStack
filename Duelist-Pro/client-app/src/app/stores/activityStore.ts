@@ -139,7 +139,8 @@ export default class ActivityStore {
             runInAction(() => {
 
                 // Filter creates an array without the activity that will be replaced
-                this.activities = [...this.activities.filter(a => a.id !== activity.id), activity]
+                this.activities = [...this.activities.filter(a => a.id !== activity.id)];
+                this.activities.push(activity);
                 this.selectedActivity = activity;
                 this.editMode = false;
                 this.loading = false;
@@ -164,6 +165,8 @@ export default class ActivityStore {
             await agent.Activities.delete(id);
             runInAction(() => {
                 this.activities = [...this.activities.filter(a => a.id !== id)];
+                /** cancelSelectedActivity if selectedActivity is not null */
+                if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
                 this.loading = false;
             })
         } catch (error) {
