@@ -2,7 +2,6 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { IActivity } from '../models/activity';
 import {v4 as uuid} from 'uuid';
-import { threadId } from 'worker_threads';
 
 export default class ActivityStore {
 
@@ -41,6 +40,7 @@ export default class ActivityStore {
 
     /** We utilize async await instead of promises */
     loadActivities = async () => {
+
         /** 
          * Can cause flicker on some browsers 
          * Solution is set it to true in the beginning

@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
+import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
 import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
@@ -16,6 +17,13 @@ export default observer(function ActivityDashBoard() {
     const {activityStore} = useStore();
     /** Destructering the properties from the activityStore */
     const {selectedActivity, editMode} = activityStore;
+
+    useEffect(() => {
+      /** HTTP request for the Activites in the backend */
+      activityStore.loadActivities();
+    }, [activityStore])
+  
+    if (activityStore.loadingInitial) return <LoadingComponent content="Fetching Data..." />
 
     return (
         <Grid>
