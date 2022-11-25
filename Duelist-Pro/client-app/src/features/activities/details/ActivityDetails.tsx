@@ -10,8 +10,7 @@ export default observer (function ActivityDetails () {
     const {activityStore} = useStore();
 
     /** Deconstructering selectedActivity from activityStore and change the name to activity  */
-    /** openform & cancelSelectedActivity was used before routing */
-    //const {selectedActivity: activity, openForm, cancelSelectedActivity} = activityStore;
+
     const {selectedActivity: activity, loadActivity, loadingInitial} = activityStore;
 
     /** It is important to the useParams what datatype is passed */

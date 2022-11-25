@@ -15,18 +15,29 @@ function App() {
   const location = useLocation();
 
   return (
-    <Fragment>
-      {/** Using semantic ui for handling website layout */}
-      <Navbar />
-      {/** We need to give a margin to the top as navbar use a fixed top */}
-      <Container style = {{marginTop: '7em'}}>
-        {/** exact, class / style will only be applied if location is matched */}
-        <Route exact path='/' component={HomePage}/>
-        <Route exact path='/activities' component={ActivityDashBoard}/>
-        <Route path='/activities/:id' component={ActivityDetails}/>
-        <Route key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm}/>
-      </Container>
-    </Fragment>
+    /** Is a fragment */
+    <>
+      <Route exact path='/' component={HomePage} />
+      <Route
+        /** Any with path plus something else will get rendered */
+        path={'/(.+)'}
+        render={() =>(
+        <>
+          {/** Using semantic ui for handling website layout */}
+          <Navbar />
+          {/** We need to give a margin to the top as navbar use a fixed top */}
+          <Container style = {{marginTop: '7em'}}>
+            {/** exact, class / style will only be applied if location is matched */}
+            <Route exact path='/' component={HomePage}/>
+            <Route exact path='/activities' component={ActivityDashBoard}/>
+            <Route path='/activities/:id' component={ActivityDetails}/>
+            <Route key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm}/>
+          </Container>
+        </>
+      )}
+      />
+    {/** Fragment endpoint */}
+    </>
   );
 }
 

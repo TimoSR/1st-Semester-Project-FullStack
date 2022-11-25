@@ -1,18 +1,14 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { IActivity } from '../models/activity';
-import {v4 as uuid} from 'uuid';
 
 export default class ActivityStore {
 
-    /** Real class data */
-    //activities: IActivity[] = [];
-    /** Better alternative is to use a map */
     activityRegistry = new Map<string, IActivity>();
     selectedActivity: IActivity | undefined = undefined;
     editMode: boolean = false;
     loading: boolean = false;
-    loadingInitial: boolean = false;
+    loadingInitial: boolean = true;
 
     /** Test Data */
     testTitle: string = 'Hello from MobX';
@@ -33,6 +29,7 @@ export default class ActivityStore {
 
     }
 
+
     get activitiesByDate() {
         return Array.from(this.activityRegistry.values()).sort((a, b) => 
         Date.parse(a.date) - Date.parse(b.date));
@@ -46,6 +43,7 @@ export default class ActivityStore {
          * Solution is set it to true in the beginning
          * if it is a problem
         */
+   
         this.loadingInitial = true;
 
         try {
@@ -121,7 +119,6 @@ export default class ActivityStore {
         return this.activityRegistry.get(id);
     }
 
-
     /** We need to do this to avoid warnings from objects telling that i'm trying to modify an observable outside an action */
     private setActivity = (activity: IActivity) => {
 
@@ -146,39 +143,15 @@ export default class ActivityStore {
         this.loadingInitial = state;
     }
 
-    /** These methods was used before routing */
-
-    // selectActivity = (id: string) => {
-    //     //this.selectedActivity = this.activities.find(activity => activity.id === id);
-    //     this.selectedActivity = this.activityRegistry.get(id);
-    // }
-
-    // cancelSelectedActivity = () => {
-    //     this.selectedActivity = undefined;
-    // }
-
-    // openForm = (id?: string) => {
-    //     id? this.selectActivity(id) : this.cancelSelectedActivity();
-    //     this.editMode = true;
-    // }
-
-    // closeForm = () => {
-    //     this.editMode = false;
-    // }
-
     createActivity = async (activity: IActivity) => {
 
         this.loading = true;
-
-        /** Creating a guid id */
-        activity.id = uuid();
 
         try {
 
             await agent.Activities.create(activity);
 
             runInAction(() => {
-                //this.activities.push(activity);
                 this.activityRegistry.set(activity.id, activity);
                 this.selectedActivity = activity;
                 this.editMode = false;
@@ -259,9 +232,5 @@ export default class ActivityStore {
      setTitle = () => {
         this.testTitle = this.testTitle + '!';
     }
-
-    // setTitle() {
-    //     this.title = this.title + '!';
-    // }
 
 }

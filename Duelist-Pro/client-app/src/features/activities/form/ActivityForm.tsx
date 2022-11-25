@@ -2,20 +2,15 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
+import {v4 as uuid} from 'uuid';
 
 export default observer(function ActivityForm() {
-
+    
+    const history = useHistory();
+    
     const {activityStore} = useStore();
-
-    /** Used before router */
-
-    // const { selectedActivity, 
-    //         closeForm, 
-    //         createActivity, 
-    //         updateActivity, 
-    //         loading } = activityStore;
 
     const { createActivity, 
             updateActivity, 
@@ -38,24 +33,25 @@ export default observer(function ActivityForm() {
         if (id) loadActivity(id).then(activity => setActivity(activity!))
     }, [id, loadActivity])
 
+
     function handleSumit() {
 
-        activity.id ? updateActivity(activity) : createActivity(activity);
+        if (activity.id.length === 0) {
+            let newActivity = {
+                ...activity,
+                id: uuid()
+            };
+
+            /** Creating the activity then redirecting  */
+            createActivity(newActivity).then(() => history.push(`/activities/${newActivity.id}`))
+
+        } else {
+
+            /** Updating activity and redirecting */
+            updateActivity(activity).then(() => history.push(`/activities/${activity.id}`))
+        }
 
     }
-
-    /** Used before routing */
-
-    // /** If activity is null or undefined, we initilize an empty activity */
-    // const initialState = selectedActivity ?? {
-    //     id: '',
-    //     title: '',
-    //     category: '',
-    //     description: '',
-    //     date: ''
-    // }
-
-    // const [activity, setActivity] = useState(initialState);
 
     if(loadingInitial) return <LoadingComponent content='Loading activity...' />
 
