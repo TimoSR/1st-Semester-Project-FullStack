@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
@@ -34,7 +35,8 @@ export default observer(function ActivityList() {
                                  * as it parses an arugment to selectActivty
                                  * Where the lamda will wait on the onClick.  
                                  * */}
-                                <Button onClick={() => activityStore.selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>
+                                {/**<Button onClick={() => activityStore.selectActivity(activity.id)} floated='right' content='View' color='blue'></Button>*/}
+                                <Button as={Link} to={`/activities/${activity.id}`} floated='right' content='View' color='blue'></Button>
                                 <Button
                                     name={activity.id} 
                                     /** Submitting and insure the target with loading is correct the activity */

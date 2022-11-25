@@ -7,8 +7,15 @@ export default observer(function ActivityForm() {
 
     const {activityStore} = useStore();
 
+    /** Used before router */
+
+    // const { selectedActivity, 
+    //         closeForm, 
+    //         createActivity, 
+    //         updateActivity, 
+    //         loading } = activityStore;
+
     const { selectedActivity, 
-            closeForm, 
             createActivity, 
             updateActivity, 
             loading } = activityStore;
@@ -47,7 +54,7 @@ export default observer(function ActivityForm() {
                 <Form.Input type="date" placeholder="Date" value={activity.date} name="date" onChange={handleInputChange} />
                 <Form.TextArea placeholder="Description" value={activity.description} name="description" onChange={handleInputChange} />
                 <Form.Input placeholder="Category" value={activity.category} name="category" onChange={handleInputChange} />
-                <Button onClick={closeForm} floated='right' type='button' content='Cancel' color='grey' />
+                <Button floated='right' type='button' content='Cancel' color='grey' />
                 <Button loading={loading} floated='right' color='blue' content='Submit'></Button>            
             </Form>
         </Segment>

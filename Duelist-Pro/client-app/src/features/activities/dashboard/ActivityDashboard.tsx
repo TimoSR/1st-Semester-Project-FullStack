@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
-import ActivityDetails from '../details/ActivityDetails';
-import ActivityForm from '../form/ActivityForm';
 import ActivityList from './ActivityList';
 
 /**  
@@ -16,7 +14,7 @@ export default observer(function ActivityDashBoard() {
 
     const {activityStore} = useStore();
     /** Destructering the properties from the activityStore */
-    const {selectedActivity, editMode} = activityStore;
+    // const {selectedActivity, editMode} = activityStore;
 
     useEffect(() => {
       /** HTTP request for the Activites in the backend */
@@ -31,16 +29,22 @@ export default observer(function ActivityDashBoard() {
                 <ActivityList />
             </Grid.Column>
             <Grid.Column width='6'>
-                {/**
+
+                {/** Is not used with routing */}
+
+                {/* *
                  * Displayed when selecting an activity and not in editMode
                  */}
-                {(selectedActivity && !editMode) ?
-                    <ActivityDetails /> : null}
+                {/* {(selectedActivity && !editMode) ?
+                    <ActivityDetails /> : null} */}
                 {/**
                  * Displayed when selecting edit mode
                  */}    
-                {(editMode) ?
-                    <ActivityForm /> : null} 
+                {/* {(editMode) ?
+                    <ActivityForm /> : null}  */}
+
+                <h2>Activity Filters</h2>
+
             </Grid.Column>
         </Grid>
     )
