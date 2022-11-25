@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Card, Image } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
@@ -42,14 +42,14 @@ export default observer (function ActivityDetails () {
                      * Where the lamda will wait on the onClick.  
                      * */}
                     {/**<Button onClick={() => openForm(activity?.id)} basic color='blue' content ='Edit'></Button>*/}
-                    <Button basic color='blue' content ='Edit'></Button>
+                    <Button as={Link} to={`/manage/${activity.id}`}  basic color='blue' content ='Edit'></Button>
 
                      {/** 
                       * I don't get why lamda don't work with cancelSelectActivity
                       * Maybe because there is never given a parameter in that case? 
                       * */}
                     {/**<Button onClick={cancelSelectedActivity} basic color='grey' content ='Cancel'></Button>*/}
-                    <Button basic color='grey' content ='Cancel'></Button>
+                    <Button as={Link} to='/activities' basic color='grey' content ='Cancel'></Button>
                 </Button.Group>
             </Card.Content>
         </Card>

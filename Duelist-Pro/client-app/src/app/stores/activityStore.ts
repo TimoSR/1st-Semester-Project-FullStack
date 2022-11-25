@@ -12,7 +12,7 @@ export default class ActivityStore {
     selectedActivity: IActivity | undefined = undefined;
     editMode: boolean = false;
     loading: boolean = false;
-    loadingInitial: boolean = true;
+    loadingInitial: boolean = false;
 
     /** Test Data */
     testTitle: string = 'Hello from MobX';
@@ -87,6 +87,7 @@ export default class ActivityStore {
         if (activity) {
 
             this.selectedActivity = activity;
+            return activity;
 
         } else {
 
@@ -95,10 +96,15 @@ export default class ActivityStore {
             try {
 
                 activity = await agent.Activities.details(id);
-
                 this.setActivity(activity);
-                this.selectedActivity = activity;
+                
+                runInAction(() => {
+                    this.selectedActivity = activity;
+                })
+
+                
                 this.setLoadingInitial(false);
+                return activity;
 
             } catch (error) {
 
