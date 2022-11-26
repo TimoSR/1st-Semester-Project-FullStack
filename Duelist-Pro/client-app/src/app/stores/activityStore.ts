@@ -35,6 +35,29 @@ export default class ActivityStore {
         Date.parse(a.date) - Date.parse(b.date));
     }
 
+    /** Functions with get is called computed functions */
+    get groupedActivities() {
+        /** Returning objects with key of date and IActivity object */
+        return Object.entries(
+            /** Reduce runs over each element of the activitiesByDate */
+            this.activitiesByDate.reduce((activities, activity) => {
+                const date = activity.date;
+                /** 
+                 * Is excuted on each callback element of the activitiesByDate array
+                 * We are looking for for dates where there is activities.
+                 * Checking if we have a match for this activity on this date
+                 * If it is a match, then what we're going to do is spread the activities.
+                 * specify in square brackets the objects property accessor again with the date there.
+                 * Then add the activty that we're executing this callback function on
+                 * and if not we are going to create a new array with that activity
+                */
+                activities[date] = activities[date] ? [...activities[date], activity] : [activity];
+                return activities;
+                /** We define activities to be an object with key of date and array of activities */
+            }, {} as {[key: string]: IActivity[]})
+        )
+    }
+
     /** We utilize async await instead of promises */
     loadActivities = async () => {
 
