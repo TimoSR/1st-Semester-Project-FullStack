@@ -31,7 +31,7 @@ export default observer (function ActivityDetails () {
         <Grid>
             <Grid.Column width={8}>
                 <ActivityDetailedHeader activity={activity} />
-                <ActivityDetailedInfo />
+                <ActivityDetailedInfo activity={activity} />
                 <ActivityDetailedChat />
             </Grid.Column>
             <Grid.Column width={6}>
