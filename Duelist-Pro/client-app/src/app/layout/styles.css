@@ -3,7 +3,7 @@ body {
 }
 
 .ui.inverted.top.fixed.menu {
-  background-image: linear-gradient(45deg,rgb(120, 43, 188) 15%, rgb(203, 62, 228) 56%, rgb(112, 112, 238) 89%) !important;
+  background-image: linear-gradient(45deg,rgb(120, 43, 188) 15%, rgb(203, 62, 228) 52%, rgb(112, 112, 238) 89%) !important;
 }
 
 .react-calendar {
@@ -20,7 +20,7 @@ body {
   background-image: linear-gradient(
     135deg,
     rgb(120, 43, 188) 15%,
-    rgb(203, 62, 228) 56%,
+    rgb(203, 62, 228) 52%,
     rgb(112, 112, 238) 89%
   ) !important;
   /* Viewport Height */
