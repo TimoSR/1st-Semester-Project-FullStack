@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 import { IActivity } from '../models/activity';
 
 /** Setting a delay to simulate page loading */
@@ -9,17 +10,31 @@ const sleep = (delay: number) => {
 }
 
 axios.interceptors.response.use(async response => {
-    try {
         /** Delay the response with a seconds delay*/
         await sleep(1000);
         return response;
-    } catch (error) {
-        console.log(error);
-        return await Promise.reject(error);
+}, (error: AxiosError) => {
+    const {data, status} = error.response!;
+    switch (status) {
+        case 400: 
+            toast.error('bad request');
+            break;
+        case 401:
+            toast.error('unauthorized');
+            break;
+        case 404:
+            toast.error('not found');
+             break;
+        case 500: 
+            toast.error('server error')
+            break
     }
+    
+    return Promise.reject(error);
+
 })
 
-axios.defaults.baseURL = "https://localhost:7032/api";
+axios.defaults.baseURL = "https://localhost:7032/api/";
 
 /**
  * I want to request a responsebody with my requested type 

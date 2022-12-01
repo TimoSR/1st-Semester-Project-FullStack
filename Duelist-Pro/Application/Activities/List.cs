@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,13 @@ namespace Application.Activities
             Returns list of activities
         */
 
-        public class Query : IRequest<List<Activity>> { }
+        public class Query : IRequest<Result<List<Activity>>> { }
 
         /*
             Of Type Query and returns a list of activities
         */
 
-        public class Handler : IRequestHandler<Query, List<Activity>>
+        public class Handler : IRequestHandler<Query, Result<List<Activity>>>
         {
             private readonly DataContext _context;
             private readonly ILogger<List> _logger;
@@ -37,7 +38,7 @@ namespace Application.Activities
 
             }
 
-            public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<Activity>>> Handle(Query request, CancellationToken cancellationToken)
             {
 
                 /*
@@ -66,7 +67,9 @@ namespace Application.Activities
                     We send a request with the entity framework to the database
                 */
 
-                return await _context.Activities.ToListAsync(cancellationToken);
+                var activities = await _context.Activities.ToListAsync(cancellationToken);
+
+                return Result<List<Activity>>.Success(activities);
 
             }
         }

@@ -31,11 +31,12 @@ namespace Application.Activities
 
             public async Task<Result<Activity>> Handle(Query request, CancellationToken cancellationToken)
             {
+
                 /* This will send back null if it doesn't get an correct id = 204 No Content */
                var activity = await _context.Activities.FindAsync(request.Id);
 
                return Result<Activity>.Success(activity);
-
+                
             }
         }
     }

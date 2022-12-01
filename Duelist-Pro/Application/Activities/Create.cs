@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Core;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -11,7 +12,7 @@ namespace Application.Activities
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
 
             public Activity Activity { get; set; }
@@ -29,7 +30,10 @@ namespace Application.Activities
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        /*
+            We expect the command to return a result of the unit
+        */
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
 
             private readonly DataContext _context;
@@ -40,23 +44,21 @@ namespace Application.Activities
             }
 
             /*
-            
                 The Unit returned retunrs nothing. 
                 It is there to signal the API controller that the command was finnished.
-
             */
-
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Activities.Add(request.Activity);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+
+                if (!result) return Result<Unit>.Failure("Failed to create activity");
 
                 /*
                     Signals the API controller that Task was finnished
                 */
-
-                return Unit.Value;
+                return Result<Unit>.Success(Unit.Value);
             }
 
         }
