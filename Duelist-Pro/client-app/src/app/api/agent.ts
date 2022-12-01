@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { IActivity } from '../models/activity';
+import { history } from '../../index';
 
 /** Setting a delay to simulate page loading */
 const sleep = (delay: number) => {
@@ -14,15 +15,37 @@ axios.interceptors.response.use(async response => {
         await sleep(1000);
         return response;
 }, (error: AxiosError) => {
+    /** Deconstructering the Json object based on model of inspection */
     const {data, status} = error.response!;
     switch (status) {
         case 400: 
-            toast.error('bad request');
+            if (data.errors) {
+
+                const modalStateErrors = [];
+                
+                for(const key in data.errors) {
+
+                    if (data.errors[key]) {
+
+                        modalStateErrors.push(data.errors[key])
+
+                    }
+
+                }
+
+                throw modalStateErrors.flat();
+
+            } else {
+
+                toast.error(data);
+
+            }
             break;
         case 401:
             toast.error('unauthorized');
             break;
         case 404:
+            history.push('/not-found');
             toast.error('not found');
              break;
         case 500: 
