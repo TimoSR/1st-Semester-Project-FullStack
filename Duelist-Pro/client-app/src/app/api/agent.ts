@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { IActivity } from '../models/activity';
 import { history } from '../../index';
+import { store } from '../stores/store';
 
 /** Setting a delay to simulate page loading */
 const sleep = (delay: number) => {
@@ -16,9 +17,16 @@ axios.interceptors.response.use(async response => {
         return response;
 }, (error: AxiosError) => {
     /** Deconstructering the Json object based on model of inspection */
-    const {data, status} = error.response!;
+    const {data, status, config} = error.response!;
     switch (status) {
         case 400: 
+            if (typeof data === 'string') {
+                toast.error(data);
+            }
+            if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
+                history.push('/not-found');
+                toast.error('not found');
+            }
             if (data.errors) {
 
                 const modalStateErrors = [];
@@ -35,10 +43,6 @@ axios.interceptors.response.use(async response => {
 
                 throw modalStateErrors.flat();
 
-            } else {
-
-                toast.error(data);
-
             }
             break;
         case 401:
@@ -47,9 +51,11 @@ axios.interceptors.response.use(async response => {
         case 404:
             history.push('/not-found');
             toast.error('not found');
-             break;
-        case 500: 
-            toast.error('server error')
+            break;
+        case 500:
+            store.commonStore.setServerError(data); 
+            history.push('/server-error');
+            toast.error('server-error')
             break
     }
     
