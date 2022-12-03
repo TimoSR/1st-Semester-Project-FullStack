@@ -11,6 +11,7 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
+import MyDateInput from '../../../app/common/form/MyDateInput';
 
 
 export default observer(function ActivityForm() {
@@ -90,7 +91,13 @@ export default observer(function ActivityForm() {
                         /** We use the semantic UI styling for the formik form */
                         <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                             <MyTextInput placeholder='Title' name='title' />
-                            <MyTextInput placeholder="Date" name="date" />
+                            <MyDateInput
+                                placeholderText='Date'
+                                name='date'
+                                showTimeSelect
+                                timeCaption='time'
+                                dateFormat='MMMM d, yyyy h:mm aa'
+                            />
                             <MyTextArea rows={3} placeholder="Description" name="description" />
                             {/* <MyTextInput placeholder="Category" name="category" /> */}
                             <MySelectInput options={categoryOptions} placeholder='Category' name='category' />
