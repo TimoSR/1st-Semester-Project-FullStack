@@ -8,7 +8,7 @@ export default class ActivityStore {
     selectedActivity: IActivity | undefined = undefined;
     editMode: boolean = false;
     loading: boolean = false;
-    loadingInitial: boolean = true;
+    loadingInitial: boolean = false;
 
     /** Test Data */
     testTitle: string = 'Hello from MobX';

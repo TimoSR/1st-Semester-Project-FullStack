@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 
@@ -50,7 +51,7 @@ export default function ActivityDetailedHeader({activity} : Props) {
             <Segment clearing attached='bottom'>
                 <Button color='teal'>Join Activity</Button>
                 <Button>Cancel attendence</Button>
-                <Button color='orange' floated='right'>Manage Event</Button>
+                <Button as={Link} to={`/manage/${activity.id}`} color='orange' floated='right'>Manage Event</Button>
             </Segment>
         </Segment.Group>
 
