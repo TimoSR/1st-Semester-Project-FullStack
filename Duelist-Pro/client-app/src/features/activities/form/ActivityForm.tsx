@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, FormField, Label, Segment } from 'semantic-ui-react';
+import { Button, FormField, Header, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import { Link, useHistory, useParams } from 'react-router-dom';
@@ -39,7 +39,7 @@ export default observer(function ActivityForm() {
 
     const validationSchema = Yup.object({
         title: Yup.string().required('The activity title is required'),
-        date: Yup.string().required(),
+        date: Yup.string().required().nullable(),
         description: Yup.string().required('The activity description is required'),
         category: Yup.string().required()
     })
@@ -50,45 +50,46 @@ export default observer(function ActivityForm() {
     }, [id, loadActivity])
 
 
-    // function handleSumit() {
+    function handleFormSubmit(activity: IActivity) {
 
-    //     if (activity.id.length === 0) {
-    //         let newActivity = {
-    //             ...activity,
-    //             id: uuid()
-    //         };
+        if (activity.id.length === 0) {
+            let newActivity = {
+                ...activity,
+                id: uuid()
+            };
 
-    //         /** Creating the activity then redirecting  */
-    //         createActivity(newActivity).then(() => history.push(`/activities/${newActivity.id}`))
+            /** Creating the activity then redirecting  */
+            createActivity(newActivity).then(() => history.push(`/activities/${newActivity.id}`))
 
-    //     } else {
+        } else {
 
-    //         /** Updating activity and redirecting */
-    //         updateActivity(activity).then(() => history.push(`/activities/${activity.id}`))
-    //     }
+            /** Updating activity and redirecting */
+            updateActivity(activity).then(() => history.push(`/activities/${activity.id}`))
+        }
 
-    // }
+    }
 
-    // function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    //     const {name, value} = event.target;
-    //     /** 
-    //      * Spreading the existing properties of the activity (copying the object in best manner)
-    //      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-    //      * Property with key of name is set to whatever the value is.
-    //     */
-    //     setActivity({...activity, [name]: value})
-    // }
+    function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const {name, value} = event.target;
+        /** 
+         * Spreading the existing properties of the activity (copying the object in best manner)
+         * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+         * Property with key of name is set to whatever the value is.
+        */
+        setActivity({...activity, [name]: value})
+    }
 
     if(loadingInitial) return <LoadingComponent content='Loading activity...' />
 
     return(
         <Segment clearing>
+            <Header content='Activity Details' sub color='teal' />
             <Formik
                 validationSchema={validationSchema} 
                 enableReinitialize 
                 initialValues={activity} 
-                onSubmit={values => console.log(values)}>
-                    {({handleSubmit}) => (
+                onSubmit={values => handleFormSubmit(values)}>
+                    {({handleSubmit, isValid, isSubmitting, dirty}) => (
                         /** We use the semantic UI styling for the formik form */
                         <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                             <MyTextInput placeholder='Title' name='title' />
@@ -99,11 +100,17 @@ export default observer(function ActivityForm() {
                                 timeCaption='time'
                                 dateFormat='dd MMM yyyy h:mm aa'
                             />
+                            <Header content='Location Details' sub color='teal' />
                             <MyTextArea rows={3} placeholder="Description" name="description" />
                             {/* <MyTextInput placeholder="Category" name="category" /> */}
                             <MySelectInput options={categoryOptions} placeholder='Category' name='category' />
                             <Button as={Link} to='/activities' floated='right' type='button' content='Cancel' color='grey' />
-                            <Button loading={loading} floated='right' color='blue' content='Submit'></Button>            
+                            <Button
+                                disabled={isSubmitting || !dirty || !isValid}
+                                loading={loading} 
+                                floated='right' 
+                                color='blue' 
+                                content='Submit'></Button>            
                         </Form>
                     )}
             </Formik>

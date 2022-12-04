@@ -55,6 +55,15 @@ export default function ActivityListItem({activity}: Props) {
                     floated='right'
                     content='View' 
                 />
+                <Button
+                    name={activity.id} 
+                    /** Submitting and insure the target with loading is correct the activity */
+                    loading={loading && target === activity.id} 
+                    onClick={(clickEvent) => handleActivityDelete(clickEvent, activity.id)} 
+                    floated='right' 
+                    content='delete' 
+                    color='red' 
+                    />
             </Segment>
         </Segment.Group>
 
