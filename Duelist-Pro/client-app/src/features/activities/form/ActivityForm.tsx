@@ -12,6 +12,7 @@ import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
 import MyDateInput from '../../../app/common/form/MyDateInput';
+import { IActivity } from '../../../app/models/activity';
 
 
 export default observer(function ActivityForm() {
@@ -28,12 +29,12 @@ export default observer(function ActivityForm() {
 
     const {id} = useParams<{id: string}>();
 
-    const [activity, setActivity] = useState({
+    const [activity, setActivity] = useState<IActivity>({
         id: '',
         title: '',
         category: '',
         description: '',
-        date: ''
+        date: null
     });
 
     const validationSchema = Yup.object({
@@ -96,7 +97,7 @@ export default observer(function ActivityForm() {
                                 name='date'
                                 showTimeSelect
                                 timeCaption='time'
-                                dateFormat='MMMM d, yyyy h:mm aa'
+                                dateFormat='dd MMM yyyy h:mm aa'
                             />
                             <MyTextArea rows={3} placeholder="Description" name="description" />
                             {/* <MyTextInput placeholder="Category" name="category" /> */}

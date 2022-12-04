@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { IActivity } from '../models/activity';
+import {format} from 'date-fns';
 
 export default class ActivityStore {
 
@@ -32,7 +33,8 @@ export default class ActivityStore {
 
     get activitiesByDate() {
         return Array.from(this.activityRegistry.values()).sort((a, b) => 
-        Date.parse(a.date) - Date.parse(b.date));
+            // Date.parse(a.date) - Date.parse(b.date));
+            a.date!.getTime() - b.date!.getTime());
     }
 
     /** Functions with get is called computed functions */
@@ -41,7 +43,8 @@ export default class ActivityStore {
         return Object.entries(
             /** Reduce runs over each element of the activitiesByDate */
             this.activitiesByDate.reduce((activities, activity) => {
-                const date = activity.date;
+                // const date = activity.date;
+                const date = format(activity.date!, 'dd MMM yyyy');
                 /** 
                  * Is excuted on each callback element of the activitiesByDate array
                  * We are looking for for dates where there is activities.
@@ -150,7 +153,8 @@ export default class ActivityStore {
          * (We can inspect it in the Network repsonse from the server)
          * We split the date based on the T, and take the first part now two elements. 
          */
-         activity.date = activity.date.split('T')[0];
+        //  activity.date = activity.date.split('T')[0];
+        activity.date = new Date(activity.date!);
 
          /** 
           * Mutating state directly, would seem odd 
