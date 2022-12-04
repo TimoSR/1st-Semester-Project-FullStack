@@ -8,7 +8,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f849f40e-cf2e-4431-a7ee-0dde77f326d6" name="Changes" comment="" />
+    <list default="true" id="f849f40e-cf2e-4431-a7ee-0dde77f326d6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Domain/Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Persistence/DataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistence/DataContext.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,6 +81,7 @@
       <updated>1667304214105</updated>
       <workItem from="1667304217174" duration="4175000" />
       <workItem from="1667827314326" duration="19000" />
+      <workItem from="1670162601765" duration="62000" />
     </task>
     <servers />
   </component>
