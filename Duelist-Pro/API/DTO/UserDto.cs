@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace API.DTO
 {
-    public class RegisterDto
+    public class UserDto
     {
         public string DisplayName { get; set; }
-        public int Email { get; set; }
-        public int Password { get; set; }
-        public int Username { get; set; }
+        public string Token { get; set; }
+        public string Username { get; set; }
+        public string Image { get; set; }
     }
 }
