@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class AccountController : ControllerBase
+    public class AccountController : BaseApiController
     {
         public UserManager<AppUser> _userManager { get; }
         private readonly SignInManager<AppUser> _signInManager;
