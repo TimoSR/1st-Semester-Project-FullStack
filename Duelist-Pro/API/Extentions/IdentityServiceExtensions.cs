@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Services;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Persistence;
@@ -20,6 +21,8 @@ namespace API.Extentions
             .AddSignInManager<SignInManager<AppUser>>();
 
             services.AddAuthentication();
+            /* I will inject the token service into the account controller */
+            services.AddScoped<TokenService>();
 
             return services;
         }
