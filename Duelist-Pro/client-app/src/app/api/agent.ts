@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { IActivity } from '../models/activity';
 import { history } from '../../index';
 import { store } from '../stores/store';
+import { User, UserFormValues } from '../models/user';
 
 /** Setting a delay to simulate page loading */
 const sleep = (delay: number) => {
@@ -80,21 +81,28 @@ const responseBody = <T> (response: AxiosResponse<T>) => response.data;
 
 const requests = {
     get: <T> (url: string) => axios.get<T>(url).then(responseBody),
-    create: <T> (url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
-    update: <T> (url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
-    delete: <T> (url: string) => axios.delete<T>(url).then(responseBody),
+    post: <T> (url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T> (url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+    del: <T> (url: string) => axios.delete<T>(url).then(responseBody),
 };
 
 const Activities = {
     list: () => requests.get<IActivity[]>('/activities'),
     details: (id: string) => requests.get<IActivity>(`/activities/${id}`),
-    create: (activity: IActivity) => requests.create<void>(`/activities`, activity),
-    update: (activity: IActivity) => requests.update<void>(`/activities/${activity.id}`, activity),
-    delete: (id: string) => requests.delete<void>(`/activities/${id}`)
+    create: (activity: IActivity) => requests.post<void>(`/activities`, activity),
+    update: (activity: IActivity) => requests.put<void>(`/activities/${activity.id}`, activity),
+    delete: (id: string) => requests.del<void>(`/activities/${id}`)
 };
 
+const Account = {
+    current: () => requests.get<User>('/account'),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+    register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
 const agent = {
-    Activities
+    Activities,
+    Account
 };
 
 export default agent;

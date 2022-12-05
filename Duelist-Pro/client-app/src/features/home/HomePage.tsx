@@ -11,8 +11,8 @@ export default function HomePage() {
                     Coup'Create */}
                 </Header>
                 {/* <Header as='h2' inverted content="Welcome to Coup'Create"></Header> */}
-                <Button style={{marginTop: 25}} as={Link} to='/activities' size='huge' inverted>
-                    Take me to the Activities!
+                <Button style={{marginTop: 25}} as={Link} to='/login' size='huge' inverted>
+                    Login
                 </Button>
             </Container>
         </Segment>
