@@ -14,7 +14,7 @@ namespace API.Controllers
     {
 
         /* Gets a list of activities */
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetActivities(CancellationToken cancellationToken)
         {
