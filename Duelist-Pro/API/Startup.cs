@@ -69,8 +69,14 @@ namespace API
             // Without a Cors Policy the browser wont accept the data send from the API
 
             app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+
+            /*
+                Authentication before UseAuthorization is important
+            */
+
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
