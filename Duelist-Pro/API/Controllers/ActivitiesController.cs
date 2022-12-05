@@ -30,7 +30,6 @@ namespace API.Controllers
             Called a root parameter
         */
 
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetActivity(Guid id)
         {

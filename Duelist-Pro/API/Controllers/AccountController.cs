@@ -5,12 +5,18 @@ using System.Threading.Tasks;
 using API.DTO;
 using API.Services;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class AccountController : BaseApiController
+
+    /* AllowAnonymous enables to register users without authentication */
+    [AllowAnonymous]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AccountController : ControllerBase
     {
         public UserManager<AppUser> _userManager { get; }
         private readonly SignInManager<AppUser> _signInManager;
