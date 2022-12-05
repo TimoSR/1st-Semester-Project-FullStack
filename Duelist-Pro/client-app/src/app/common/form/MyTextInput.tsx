@@ -13,7 +13,8 @@ interface Props {
 export default function MyTextInput(props: Props) {
     const [field, meta] = useField(props.name);
     return(
-        /** !! converts meta to a boolean if there is a error or undefined */       <Form.Field error={meta.touched && !!meta.error}>
+        /** !! converts meta to a boolean if there is a error or undefined */       
+        <Form.Field error={meta.touched && !!meta.error}>
             <label>{props.label}</label>
             <input {...field} {...props}/>
             {meta.touched && meta.error ? (
