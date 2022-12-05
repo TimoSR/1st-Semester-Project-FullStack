@@ -16,6 +16,7 @@ import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
 import { useStore } from '../stores/store';
 import LoadingComponent from './LoadingComponents';
+import ModalContainer from '../common/modals/ModalContainer';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
     /** Is a fragment */
     <>
     <ToastContainer position="bottom-right" hideProgressBar />
+      <ModalContainer />
       <Route exact path='/' component={HomePage} />
       <Route
         /** Any with path plus something else will get rendered */
