@@ -33,7 +33,7 @@ export default observer (function LoginForm() {
                         as={Link} to='/' 
                         onClick={() => modalStore.closeModal()} 
                         content='Cancel' 
-                        basis color='red' 
+                        color='red' 
                         fluid/>
                 </Form>
                 )}
