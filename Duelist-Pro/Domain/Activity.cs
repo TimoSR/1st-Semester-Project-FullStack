@@ -18,5 +18,7 @@ namespace Domain
 
         public string? Category { get; set; }
 
+        public ICollection<ActivityAttendee> Attendees { get; set; }
+
     }
-}
+}   
