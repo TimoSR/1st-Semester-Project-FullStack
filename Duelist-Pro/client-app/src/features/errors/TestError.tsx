@@ -33,7 +33,7 @@ export default function TestErrors() {
 
     return (
         <>
-            <Header as='h1' content='Test Error component' />
+            <Header as='h1' inverted content='Test Error component' />
             <Segment>
                 <Button.Group widths='7'>
                     <Button onClick={handleNotFound} content='Not Found' basic primary />
