@@ -36,7 +36,7 @@ namespace Persistence
 
             builder.Entity<ActivityAttendee>()
                 .HasOne(u => u.AppUser)
-                .WithMany(a => a.Activities)
+                .WithMany(a => a.Activities) 
                 .HasForeignKey(aa => aa.AppUserId);
 
             builder.Entity<ActivityAttendee>()
