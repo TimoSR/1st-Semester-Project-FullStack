@@ -5,7 +5,7 @@ import ValidationErrors from './ValidationErrors';
 
 export default function TestErrors() {
 
-    const [errors, setError] = useState(null);
+    const [errors, setError] = useState();
 
     function handleNotFound() {
         axios.get('/buggy/not-found').catch(err => console.log(err.response));
