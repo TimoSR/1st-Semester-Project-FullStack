@@ -12,7 +12,7 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = "https://localhost:7032/api/";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
@@ -23,8 +23,8 @@ axios.interceptors.request.use(config => {
 
 
 axios.interceptors.response.use(async response => {
+        if(process.env.NODE_ENV === 'development') await sleep(1000);
         /** Delay the response with a seconds delay*/
-        await sleep(1000);
         return response;
 }, (error: AxiosError) => {
     /** Deconstructering the Json object based on model of inspection */
