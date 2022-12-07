@@ -75,9 +75,16 @@ namespace API
 
             app.UseRouting();
 
+            /* Serving the static file for the client */
+
+            app.UseDefaultFiles();
+
+            /* It will automatically find the wwwroot due to naming */
+            app.UseStaticFiles();
+
             // Without a Cors Policy the browser wont accept the data send from the API
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(builder => builder.WithOrigins("https://localhost:7032").AllowAnyHeader().AllowAnyMethod());
 
             /*
                 Authentication before UseAuthorization is important
@@ -89,6 +96,8 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                /* We need to give server a way to deal with routes it is not aware of*/
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

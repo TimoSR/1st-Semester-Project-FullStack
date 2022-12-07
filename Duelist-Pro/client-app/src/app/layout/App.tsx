@@ -55,9 +55,9 @@ function App() {
               <PrivateRoute exact path='/activities' component={ActivityDashBoard}/>
               <PrivateRoute path='/activities/:id' component={ActivityDetails}/>
               <PrivateRoute key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm}/>
-              <PrivateRoute path='/errors' component={TestErrors}/>
-              <PrivateRoute path='/server-error' component={ServerError}/>
-              <PrivateRoute component={NotFound} />
+              <Route path='/errors' component={TestErrors}/>
+              <Route path='/server-error' component={ServerError}/>
+              <Route component={NotFound} />
             </Switch>
           </Container>
         </>

@@ -26,7 +26,7 @@ namespace API.Extentions
             {
                 // Targets "ConnectionStrings" in appsettings.Development.json
                 // It is important that ConnectionStrings is in plural
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
 
             /* DependencyInjection */
