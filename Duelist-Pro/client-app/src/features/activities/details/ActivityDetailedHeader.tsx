@@ -30,7 +30,7 @@ export default function ActivityDetailedHeader({activity} : Props) {
    
         <Segment.Group>
             <Segment basic attached='top' style={{padding: '0'}}>
-                <Image src={'assets/test.jpg'} fluid style={activityImageStyle}></Image>
+                <Image src={'/assets/test.jpg'} fluid style={activityImageStyle}></Image>
                 <Segment style={activityImageTextStyle} basic>
                     <Item.Group>
                         <Item>

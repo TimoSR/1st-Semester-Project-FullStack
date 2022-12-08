@@ -1,5 +1,6 @@
 FROM mcr.Microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
+EXPOSE 8080
 
 # copy .csproj and restore as destinct layers
 COPY "Duelist-Pro.sln" "Duelist-Pro.sln"
