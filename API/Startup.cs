@@ -41,6 +41,14 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IDbClient, DbClient>();
+            services.Configure<BookStoreDbConfig>(options =>
+            {
+                options.Database_Name = _config.GetValue<string>("MongoDBMetaData:DATABASE_NAME");
+                options.Books_Collection_Name = _config.GetValue<string>("MongoDBMetaData:BOOKS_COLLECTION_NAME");
+                // This is a big no no in normal use
+                options.Connection_String = _config.GetValue<string>("MongoDBMetaData:MONGO_CONNECTION");
+            });
             services.AddTransient<IBookServices, BookServices>();
             services.AddControllers(opt =>
             {
