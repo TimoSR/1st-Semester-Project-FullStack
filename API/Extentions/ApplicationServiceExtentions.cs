@@ -37,7 +37,7 @@ namespace API.Extentions
                 }
                 else
                 {
-                    // Use connection string provided at runtime by Heroku.
+                    // Use connection string provided at runtime by FLyIO.
                     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
                     // Parse connection URL to connection string for Npgsql

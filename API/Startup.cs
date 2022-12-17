@@ -20,6 +20,7 @@ using Microsoft.OpenApi.Models;
 using Persistence;
 using FluentValidation.AspNetCore;
 using API.Middleware;
+using BookStore.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
@@ -40,7 +41,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddTransient<IBookServices, BookServices>();
             services.AddControllers(opt =>
             {
 
