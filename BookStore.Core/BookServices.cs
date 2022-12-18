@@ -17,4 +17,12 @@ public class BookServices : IBookServices
     {
         return _books.Find(book => true).ToList();
     }
+
+    public Book AddBook(Book book)
+    {
+        _books.InsertOne(book);
+        return book;
+    }
+
+    public Book GetBook(string id) => _books.Find(book => book.Id == id).First();
 }

@@ -26,5 +26,17 @@ namespace API.Controllers
             return Ok(_bookServices.GetBooks());
         }
 
+        [HttpPost]
+        public IActionResult AddBook(Book book)
+        {
+            return Ok(_bookServices.AddBook(book));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetBook(string id)
+        {
+            return Ok(_bookServices.GetBook(id));
+        }
+
     }
 }
