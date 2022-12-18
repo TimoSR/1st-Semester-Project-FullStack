@@ -11,11 +11,11 @@ namespace API.Controllers
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
-    public class BooksController : ControllerBase
+    public class MongoBooksController : ControllerBase
     {
         private readonly IBookServices _bookServices;
 
-        public BooksController(IBookServices bookServices)
+        public MongoBooksController(IBookServices bookServices)
         {
             _bookServices = bookServices;
         }
@@ -38,5 +38,17 @@ namespace API.Controllers
             return Ok(_bookServices.GetBook(id));
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBook(string id)
+        {
+            _bookServices.DeleteBook(id);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public IActionResult UpdateBook(Book book)
+        {
+            return Ok(_bookServices.UpdateBook(book));
+        }
     }
 }
